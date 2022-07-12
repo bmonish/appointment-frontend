@@ -26,6 +26,27 @@ const HomePage = () => {
       });
   }, []);
 
+  const handleDelete = (appointmentId) => {
+    axios({
+      method: "delete",
+      url: `${BASE_URL}/appointment/${appointmentId}`,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "x-auth-token": localStorage.getItem("ACCESS_TOKEN"),
+      },
+    })
+      .then((res) => res.data)
+      .then(() => {
+        setAppointments(
+          appointments.filter(
+            (appointment) => appointment._id !== appointmentId
+          )
+        );
+      })
+      .catch((err) => {
+        alert(err.response.data.errors[0].msg);
+      });
+  };
   return (
     <div>
       <div className="container mt-3">
@@ -70,11 +91,12 @@ const HomePage = () => {
                   {userType === "patient" ? "Doctor" : "Patient"}
                 </th>
                 <th scope="col">Price</th>
+                <th scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>
               {appointments.map(
-                ({ date, title, patient, doctor, price }, index) => (
+                ({ _id, date, title, patient, doctor, price }, index) => (
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{moment(date).format("DD-MM-YYYY")}</td>
@@ -85,6 +107,17 @@ const HomePage = () => {
                         : patient.username}
                     </td>
                     <td>{price}</td>
+                    <td>
+                      <button className="btn btn-outline-primary mr-3">
+                        Edit
+                      </button>{" "}
+                      <button
+                        className="btn btn-outline-danger ml-3"
+                        onClick={() => handleDelete(_id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
                   </tr>
                 )
               )}

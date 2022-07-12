@@ -49,8 +49,7 @@ const BookAppointment = () => {
       },
     })
       .then((res) => res.data)
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         navigate("/home");
       })
       .catch((err) => {
@@ -74,10 +73,7 @@ const BookAppointment = () => {
                     type="date"
                     className="form-control"
                     value={date}
-                    onChange={(e) => {
-                      setDate(e.target.value);
-                      console.log(e.target.value);
-                    }}
+                    onChange={(e) => setDate(e.target.value)}
                   />
                 </div>
 
