@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "./constants";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,9 +25,13 @@ const Signup = () => {
           password,
           userType: userType.toLowerCase(),
         },
-      }).then((res) => {
-        history.push("/login");
-      });
+      })
+        .then((res) => {
+          navigate("/login", { replace: true });
+        })
+        .catch((err) => {
+          alert(err.response.data.errors[0].msg);
+        });
     } else {
       alert("Role can either be 'doctor' or 'patient'");
     }
@@ -82,9 +86,13 @@ const Signup = () => {
                   >
                     Sign up
                   </button>
-                  <a className="mt-3" style={{ float: "right" }} href="/login">
-                    Already a member?
-                  </a>
+                  <button
+                    className="btn btn-outline-dark mt-3"
+                    style={{ float: "right" }}
+                    onClick={() => navigate("/login", { replace: true })}
+                  >
+                    Go to Login
+                  </button>
                 </div>
               </form>
             </div>
