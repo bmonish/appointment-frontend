@@ -36,7 +36,12 @@ const HomePage = () => {
           <div className="col d-flex justify-content-end">
             <div className="ml-auto text-right">
               {userType === "patient" && (
-                <button className="btn btn-outline-primary">
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={() => {
+                    navigate("/book-appointment");
+                  }}
+                >
                   Book an Appointment
                 </button>
               )}
@@ -70,7 +75,7 @@ const HomePage = () => {
             <tbody>
               {appointments.map(
                 ({ date, title, patient, doctor, price }, index) => (
-                  <tr>
+                  <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{moment(date).format("DD-MM-YYYY")}</td>
                     <td>{title}</td>
