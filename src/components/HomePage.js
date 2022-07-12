@@ -26,6 +26,10 @@ const HomePage = () => {
       });
   }, []);
 
+  const handleEdit = (appointmentId) => {
+    navigate(`/book-appointment?id=${appointmentId}`);
+  };
+
   const handleDelete = (appointmentId) => {
     axios({
       method: "delete",
@@ -108,7 +112,10 @@ const HomePage = () => {
                     </td>
                     <td>{price}</td>
                     <td>
-                      <button className="btn btn-outline-primary mr-3">
+                      <button
+                        className="btn btn-outline-primary mr-3"
+                        onClick={() => handleEdit(_id)}
+                      >
                         Edit
                       </button>{" "}
                       <button
